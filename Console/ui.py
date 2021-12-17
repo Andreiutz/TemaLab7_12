@@ -25,6 +25,7 @@ class Console():
         print("6) 'cautare_client'")
         print("7) 'inchiriere_carte'")
         print("8) 'returnare_carte'")
+        print("9) 'sort_clienti'")
         print("X) 'exit'")
         print("")
 
@@ -35,6 +36,7 @@ class Console():
         print("2) 'sterge_carte'")
         print("3) 'afisare_carti'")
         print("4) 'modificare_carte'")
+        print("5) 'sort_carti'")
         print("X) 'exit'")
         print("")
 
@@ -70,10 +72,17 @@ class Console():
                 self.__ui_inchiriere_carte()
             elif cmd == "returnare_carte":
                 self.__ui_returnare_carte()
+            elif cmd == "sort_clienti":
+                self.__ui_sort_clienti()
             elif cmd == "exit":
                 return
             else:
                 print("comanda invalida!\n")
+
+    def __ui_sort_clienti(self):
+        list = self.__client_service.sort_clienti(False)
+        for c in list:
+            print(c)
 
     def __ui_adauga_client(self):
         try:
@@ -188,9 +197,17 @@ class Console():
                 self.__ui_afisare_carti()
             elif cmd == "modificare_carte":
                 self.__ui_modificare_carte()
+            elif cmd == 'sort_carti':
+                self.__ui_sort_carti()
             elif cmd == "exit":
                 return
             else: print("comanda invalida!\n")
+
+    def __ui_sort_carti(self):
+        list = self.__carte_service.sort_carti(False)
+        for carte in list:
+            print(carte)
+
 
     def __ui_adauga_carte(self):
         try:

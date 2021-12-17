@@ -15,6 +15,15 @@ class EnrollmentRepositoryFile(EnrollmentRepository):
         self._repo_enrollment = []
         with open(self.__path_name, "r") as f:
             lines = f.readlines()
+            for i in range(0, len(lines), 4):
+                id_enroll = int(lines[i].strip())
+                id_client = int(lines[i+1].strip())
+                id_carte =  int(lines[i+2].strip())
+                status_enroll = int(lines[i+3].strip())
+                enroll = Enrollment(id_enroll, id_client, id_carte, status_enroll)
+                self._repo_enrollment.append(enroll)
+
+            '''
             for line in lines:
                 if len(line) > 0:
                     line = line.strip()
@@ -24,17 +33,17 @@ class EnrollmentRepositoryFile(EnrollmentRepository):
                     id_carte = int(parts[2])
                     status_enroll = int(parts[3])
                     enroll = Enrollment(id_enroll, id_client, id_carte, status_enroll)
-                    self._repo_enrollment.append(enroll)
+                    self._repo_enrollment.append(enroll)'''
 
     def __write_all_to_file(self):
         with open(self.__path_name, "w") as f:
             for enrollment in self._repo_enrollment:
-                f.write(f"{str(enrollment.get_id())},{str(enrollment.get_id_client())},{str(enrollment.get_id_carte())},{str(enrollment.get_status())}\n")
+                f.write(f"{str(enrollment.get_id())}\n{str(enrollment.get_id_client())}\n{str(enrollment.get_id_carte())}\n{str(enrollment.get_status())}\n")
 
     def __add_to_file(self, enrollment):
         with open(self.__path_name, "a") as f:
             f.write(
-                f"{str(enrollment.get_id())},{str(enrollment.get_id_client())},{str(enrollment.get_id_carte())},{str(enrollment.get_status())}\n")
+                f"{str(enrollment.get_id())}\n{str(enrollment.get_id_client())}\n{str(enrollment.get_id_carte())}\n{str(enrollment.get_status())}\n")
 
     def add_enrollment(self, enrollment):
         self.__read_all_from_file()

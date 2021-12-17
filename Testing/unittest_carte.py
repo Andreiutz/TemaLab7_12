@@ -5,6 +5,8 @@ from Repository.carte_repository import CarteRepository
 from Validation.carte_validator import CarteValidator
 from Service.carte_service import CarteService
 
+from Sorting_Algorithms.sort_algorithms import SortAlg
+
 class TestCarte(unittest.TestCase):
 
     '''CONSTRUCTOR'''
@@ -171,3 +173,25 @@ class TestCarte(unittest.TestCase):
             assert False
         except Exception as ex:
             assert str(ex) == "titlu invalid!\n"
+
+    def test_sort_carti(self):
+        sort = SortAlg()
+
+        valid = CarteValidator()
+        repo = CarteRepository()
+        srv = CarteService(valid, repo)
+
+        carte1 = Carte(1, "A", "a", "-", False)
+        carte2 = Carte(2, "A", "a", "-", False)
+        carte3 = Carte(3, "A", "a", "-", False)
+        carte4 = Carte(4, "A", "a", "-", False)
+
+        srv.add_carte(1, "A", "a", "-")
+        srv.add_carte(3, "A", "a", "-")
+        srv.add_carte(4, "A", "a", "-")
+        srv.add_carte(2, "A", "a", "-")
+
+        list = repo.get_all()
+        sort.comb_sort(list, key = lambda x: x.get_id())
+
+        assert list == [carte1, carte2, carte3, carte4]

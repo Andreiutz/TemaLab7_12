@@ -54,6 +54,6 @@ class ClientRepositoryFile(ClientRepository):
         self.__read_all_from_file()
         return ClientRepository.get_all(self)
 
-    def get_client(self, id_client):
+    def get_client(self, id_client, x = 0):
         self.__read_all_from_file()
-        return ClientRepository.get_client(self, id_client)
+        return ClientRepository.get_client(self, id_client, x)

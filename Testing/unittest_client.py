@@ -4,6 +4,7 @@ from Repository.client_repository_file import ClientRepositoryFile
 from Repository.client_repository import ClientRepository
 from Validation.client_validator import ClientValidator
 from Service.client_service import ClientService
+from Sorting_Algorithms.sort_algorithms import SortAlg
 
 class TestClient(unittest.TestCase):
     '''CONSTRUCTOR'''
@@ -152,6 +153,20 @@ class TestClient(unittest.TestCase):
         except Exception as ex:
             assert str(ex) == "id invalid!\nnume invalid!\ncnp invalid!\n"
 
+    #BLACK-BOX TESTING
+    def test_add_black_box(self):
+        valid = ClientValidator()
+        repo = ClientRepository()
+        srv = ClientService(valid, repo)
+
+        srv.add_client(1, "Andrei", "1234")
+        assert len(srv) == 1
+        try:
+            srv.add_client(1, "Andrei", "1234")
+            assert False
+        except Exception as ex:
+            assert True
+
     def test_modificare_client(self):
         valid = ClientValidator()
         repo = ClientRepository()
@@ -165,6 +180,24 @@ class TestClient(unittest.TestCase):
             assert False
         except Exception as ex:
             assert str(ex) == "id-ul nu exista!\n"
+
+    def test_sort_clienti(self):
+        valid = ClientValidator()
+        repo = ClientRepository()
+        srv = ClientService(valid, repo)
+
+        client1 = Client(1, "Andrei", "1234")
+        client2 = Client(2, "Andrei", "4321")
+        client3 = Client(3, "Darius", "1111")
+
+        srv.add_client(2, "Andrei", "4321")
+        srv.add_client(3, "Darius", "1111")
+        srv.add_client(1, "Andrei", "1234")
+
+        sort = SortAlg()
+        list = srv.get_all()
+        sort.comb_sort(list, key = lambda x: x.get_id(), reversed=True)
+        assert list == [client3, client2, client1]
 
 
 

@@ -1,5 +1,7 @@
 from Domain.client import Client
 from Domain.randomizer import Random
+from Sorting_Algorithms.sort_algorithms import SortAlg
+
 
 class ClientService():
     def __init__(self, client_validator, client_repository):
@@ -48,12 +50,12 @@ class ClientService():
         client_nou = Client(id_client, nume_client, cnp_client)
         self.__client_repository.modify_client(client_nou)
 
-    def generare_clienti(self, n):
-        '''
+    '''def generare_clienti(self, n):
+        
         Functia genereaza aleatoriu n clienti
         :param n:
         :return:
-        '''
+        
         random = Random()
         while n:
             id_client = random.get_random_id()
@@ -65,4 +67,38 @@ class ClientService():
                 self.__client_repository.add_client(client_nou)
                 n -= 1
             except Exception as ex:
-                pass
+                pass'''
+
+
+    def generare_clienti(self, n):
+        '''
+        Functia genereaza aleatoriu n clienti
+        :param n:
+        :return:
+        '''
+        if n:
+            random = Random()
+            id_client = random.get_random_id()
+            nume_client = random.get_random_nume()
+            cnp_client = random.get_random_cnp()
+            try:
+                self.__client_validator.validare_date(id_client, nume_client, cnp_client)
+                client_nou = Client(id_client, nume_client, cnp_client)
+                self.__client_repository.add_client(client_nou)
+                self.generare_clienti(n-1)
+            except Exception as ex:
+                self.generare_clienti(n)
+
+
+
+    def sort_clienti(self, reversed):
+        '''
+        Functia sorteaza repo-ul de carti crescator dupa id
+        :param reversed:
+        :return:
+        '''
+        sort = SortAlg()
+        repo = self.__client_repository.get_all()
+        sort.insertion_sort(repo, key=lambda x: x.get_id())
+        return repo
+

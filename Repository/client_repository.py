@@ -17,7 +17,7 @@ class ClientRepository():
     def delete_client(self, id_client):
         for i, client in enumerate(self._repo_clienti):
             if client.get_id() == id_client:
-                del(self._repo_clienti[i])
+                del (self._repo_clienti[i])
                 return
         raise Exception("id-ul nu exista!\n")
 
@@ -31,9 +31,18 @@ class ClientRepository():
     def get_all(self):
         return self._repo_clienti
 
-    def get_client(self, id_client):
+    '''def get_client(self, id_client):
         for client in self._repo_clienti:
             if client.get_id() == id_client:
                 return client
-        raise Exception("id-ul nu exista!\n")
+        raise Exception("id-ul nu exista!\n")'''
 
+    def get_client(self, id_client, x=0):
+        if x < len(self._repo_clienti):
+            if id_client == self._repo_clienti[x].get_id():
+                return self._repo_clienti[x]
+            else:
+                x += 1
+                return self.get_client(id_client, x)
+        else:
+            raise Exception("id-ul nu exista!\n")

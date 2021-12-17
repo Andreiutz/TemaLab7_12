@@ -1,4 +1,5 @@
 from Domain.carte import Carte
+from Sorting_Algorithms.sort_algorithms import SortAlg
 
 class CarteService():
 
@@ -47,3 +48,14 @@ class CarteService():
         self.__carte_validator.validare_date(id_carte, titlu, autor, descriere)
         new_carte = Carte(id_carte, titlu, autor, descriere, status)
         self.__carte_repository.modify_carte(new_carte)
+
+    def sort_carti(self, reverse):
+        '''
+        Functia sorteaza lista cartilor in functie de id
+        daca reverse = True, o sorteaza descrescator, altfel crescator
+        :return:
+        '''
+        sort = SortAlg()
+        repo = self.__carte_repository.get_all()
+        sort.insertion_sort(repo, key = lambda x: x.get_id())
+        return repo

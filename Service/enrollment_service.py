@@ -3,6 +3,7 @@ from Domain.carte_frecventa_dto import CarteFrecventaDto
 from Domain.client_carti_raport_dto import ClientCartiRaportDto
 from Domain.client_frecventa_dto import ClientFrecventaDto
 from Domain.carte import Carte
+from Sorting_Algorithms.sort_algorithms import SortAlg
 
 class EnrollmentService():
     def __init__(self, validator_enroll, repo_enroll, repo_client, repo_carte):
@@ -76,6 +77,7 @@ class EnrollmentService():
 
         return res[:3]
 
+    #Lab 12
     def cele_mai_inchiriate_carti(self):
         '''
         Functia returneaza cele mai inchiriate carti
@@ -97,7 +99,8 @@ class EnrollmentService():
             carte_frecv_dto = CarteFrecventaDto(nume_carte, frecv)
             res.append(carte_frecv_dto)
 
-        res.sort(key = lambda x: x.get_frecventa(), reverse = True)
+        sort = SortAlg()
+        sort.insertion_sort(res,key = lambda x: (x.get_frecventa(), x.get_nume_carte()), reversed = True )
 
         final_res = []
         fr_max = res[0].get_frecventa()
@@ -129,7 +132,8 @@ class EnrollmentService():
             odt = ClientCartiRaportDto(id_client, nume_client, lista_carti)
             res.append(odt)
 
-        res.sort(key = lambda x: (x.get_nume_client(), len(x.get_lista_carti())))
+        sort = SortAlg()
+        sort.comb_sort(res, key = lambda x: (x.get_nume_client(), len(x.get_lista_carti())))
         return res
 
     def top20(self):
@@ -150,7 +154,10 @@ class EnrollmentService():
             frecventa = situatie_clienti[cheie]
             rap_cl = ClientFrecventaDto(nume_client, frecventa)
             res.append(rap_cl)
-        res.sort(key = lambda x: x.get_frecventa(), reverse=True)
+
+        sort = SortAlg()
+        sort.comb_sort(res,key = lambda x: x.get_frecventa(), reversed=True)
+
         return res[:(len(res)-1)//5+1]
 
     def delete_carte(self, id_carte):

@@ -17,6 +17,8 @@ from Service.client_service import ClientService
 from Service.carte_service import CarteService
 from Service.enrollment_service import EnrollmentService
 
+from Sorting_Algorithms.sort_algorithms import SortAlg
+
 class TestClient():
 
     def __test_eq(self):
@@ -777,6 +779,9 @@ class TestCarteService():
         self.__test_add_carte()
         self.__test_modify_carte()
 
+
+
+
 class Tests():
 
     def __init__(self):
@@ -790,6 +795,7 @@ class Tests():
         self.__teste_client_service = TestClientService()
         self.__teste_carte_service = TestCarteService()
         self.__teste_enroll_service = TestEnrollService()
+
 
     def run_all_tests(self):
         self.__teste_client.run_teste_client()
